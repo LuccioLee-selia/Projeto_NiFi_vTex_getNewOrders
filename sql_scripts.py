@@ -50,13 +50,11 @@ queryList = {
         'sql_querySequence' : '''
                     SELECT
                         NEXT VALUE FOR dbo.SEQ_ID_PEDIDO_VTEX as ID_PEDIDO
-                    '''
-    },
-    'getOrders_pedidosVtex' : {
-        'sql_query' : '''
+                    ''',
+        'sql_queryPedidosVtex': '''
                     SELECT 
                         pvtex.ID_PEDIDO_VTEX,
-                        pvtex.orderId, 
+                        pvtex.orderId as orderId, 
                         avtex.CONTA,
                         avtex.CHAVE, 
                         avtex.TOKEN
@@ -64,6 +62,11 @@ queryList = {
                     INNER JOIN acessos_vtex avtex ON avtex.CONTA = pvtex.accountHostname
                     WHERE status NOT IN ('invoiced','replaced','canceled')
                     AND avtex.ATIVO = 'T'
-                    '''
+                    ''',
+        'ordersOutputSuccess' : 'ordersOutputSuccess',
+        'ordersOutputFailed' : 'ordersOutputFailed',
+        'pedidosOutputSuccess' : 'pedidosOutputSuccess',
+        'pedidosOutputFailed' : 'pedidosOutputFailed'
+
     }
 }
