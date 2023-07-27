@@ -34,7 +34,7 @@ queryList = {
         'resultFailedTable' : 'temp_OrdersVtexfailure30Days'
     },
     'getOrders_temptables' : {
-        'sql_query' : '''
+        'sql_queryAux' : '''
                     SELECT
                         tovsr.orderId,
                         av.CHAVE,
@@ -63,7 +63,7 @@ queryList = {
                     WHERE status NOT IN ('invoiced','replaced','canceled')
                     AND avtex.ATIVO = 'T'
                     ''',
-        'sql_queryOrderWithPedidoID' : '''
+        'sql_query' : '''
                     SELECT
                         tovsr.orderId,
                         av.CHAVE,
@@ -89,40 +89,9 @@ queryList = {
                         ) tblPv on tblPv.orderId = tovsr.orderId 
                     WHERE
                         tovsr.hostname <> 'distribuidor'
-                        AND ID_PEDIDO_VTEX IS NOT NULL
                     ''',
-        'sql_queryOrderWithoutPedidoID' : '''
-                    SELECT
-                        tovsr.orderId,
-                        av.CHAVE,
-                        av.TOKEN,
-                        tovsr.hostname as CONTA,
-                        tblPv.ID_PEDIDO_VTEX as ID_PEDIDO_VTEX
-                    FROM
-                        [temp_OrdersVtexSuccessRecent] tovsr
-                    LEFT JOIN
-                        acessos_vtex av ON tovsr.hostname = av.CONTA
-                    LEFT JOIN
-                        (
-                        SELECT 
-                            pvtex.ID_PEDIDO_VTEX as ID_PEDIDO_VTEX,
-                            pvtex.orderId as orderId, 
-                            avtex.CONTA,
-                            avtex.CHAVE, 
-                            avtex.TOKEN
-                        FROM pedidos_vtex pvtex
-                        INNER JOIN acessos_vtex avtex ON avtex.CONTA = pvtex.accountHostname
-                        WHERE status NOT IN ('invoiced','replaced','canceled')
-                        AND avtex.ATIVO = 'T'
-                        ) tblPv on tblPv.orderId = tovsr.orderId 
-                    WHERE
-                        tovsr.hostname <> 'distribuidor'
-                        AND ID_PEDIDO_VTEX IS NULL
-                    ''',
-        'ordersOutputSuccess' : 'ordersOutputSuccess',
-        'ordersOutputFailed' : 'ordersOutputFailed',
-        'pedidosOutputSuccess' : 'pedidosOutputSuccess',
-        'pedidosOutputFailed' : 'pedidosOutputFailed'
+        'OutputSuccess' : 'OutputSuccess',
+        'OutputFailed' : 'OutputFailed',
 
     }
 }
